@@ -75,7 +75,7 @@ export default function Page() {
         </p>
       </div>
 
-      {/* Live preview */}
+      {/* Live preview — no explicit props, reads parent automatically */}
       <div
         className="relative flex items-center justify-center bg-muted/40"
         style={{
@@ -89,9 +89,6 @@ export default function Page() {
           container r={containerRadius}px
         </span>
         <ConcentricRectangle
-          containerRadius={containerRadius}
-          inset={inset}
-          borderWidth={borderWidth}
           topLeadingCorner={toCornerStyle(tl)}
           topTrailingCorner={toCornerStyle(tr)}
           bottomLeadingCorner={toCornerStyle(bl)}
