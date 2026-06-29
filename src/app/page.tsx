@@ -67,8 +67,8 @@ export default function Page() {
       <div>
         <h1 className="text-2xl font-semibold">ConcentricRectangle</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          A rounded rectangle whose corner radii are calculated to be concentric
-          with a container shape — sharing the same center point. The math:{" "}
+          A rounded rectangle whose corner radii are calculated to be concentric with a container
+          shape — sharing the same center point. The math:{" "}
           <code className="font-mono text-xs bg-muted px-1 py-0.5 rounded">
             innerRadius = containerRadius − inset
           </code>
@@ -95,9 +95,7 @@ export default function Page() {
           bottomTrailingCorner={toCornerStyle(br)}
           className="w-full h-32 bg-primary/80 flex items-center justify-center"
         >
-          <span className="text-primary-foreground text-sm font-mono">
-            ConcentricRectangle
-          </span>
+          <span className="text-primary-foreground text-sm font-mono">ConcentricRectangle</span>
         </ConcentricRectangle>
       </div>
 
@@ -109,8 +107,7 @@ export default function Page() {
         <CardContent className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <Label className="text-xs">
-              Container radius:{" "}
-              <span className="font-mono">{containerRadius}px</span>
+              Container radius: <span className="font-mono">{containerRadius}px</span>
             </Label>
             <Slider
               min={0}
@@ -134,8 +131,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col gap-2">
             <Label className="text-xs">
-              Container border width:{" "}
-              <span className="font-mono">{borderWidth}px</span>
+              Container border width: <span className="font-mono">{borderWidth}px</span>
             </Label>
             <Slider
               min={0}
@@ -202,9 +198,7 @@ export default function Page() {
                   className="w-full h-full bg-primary/80"
                 />
               </div>
-              <span className="text-xs text-muted-foreground text-center">
-                {ex.label}
-              </span>
+              <span className="text-xs text-muted-foreground text-center">{ex.label}</span>
             </div>
           ))}
         </div>

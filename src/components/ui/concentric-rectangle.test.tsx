@@ -1,12 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, act } from "@testing-library/react";
 import React from "react";
-import {
-  ConcentricRectangle,
-  concentric,
-  fixed,
-  square,
-} from "./concentric-rectangle";
+import { ConcentricRectangle, concentric, fixed, square } from "./concentric-rectangle";
 
 // Helper: get the border-radius style of the rendered div
 function getRadius(container: HTMLElement): string {
@@ -17,17 +12,13 @@ function getRadius(container: HTMLElement): string {
 
 describe("concentric corner style", () => {
   it("subtracts inset from container radius", () => {
-    const { container } = render(
-      <ConcentricRectangle containerRadius={40} inset={16} />
-    );
+    const { container } = render(<ConcentricRectangle containerRadius={40} inset={16} />);
     // all four corners: 40 - 16 = 24
     expect(getRadius(container)).toBe("24px 24px 24px 24px");
   });
 
   it("clamps to 0 when inset exceeds container radius", () => {
-    const { container } = render(
-      <ConcentricRectangle containerRadius={10} inset={20} />
-    );
+    const { container } = render(<ConcentricRectangle containerRadius={10} inset={20} />);
     expect(getRadius(container)).toBe("0px 0px 0px 0px");
   });
 
@@ -40,7 +31,7 @@ describe("concentric corner style", () => {
         topTrailingCorner={concentric(8)}
         bottomLeadingCorner={concentric(8)}
         bottomTrailingCorner={concentric(8)}
-      />
+      />,
     );
     // concentric = 20 - 18 = 2, minimum = 8 → 8
     expect(getRadius(container)).toBe("8px 8px 8px 8px");
@@ -55,7 +46,7 @@ describe("concentric corner style", () => {
         topTrailingCorner={concentric(4)}
         bottomLeadingCorner={concentric(4)}
         bottomTrailingCorner={concentric(4)}
-      />
+      />,
     );
     // concentric = 40 - 8 = 32, minimum = 4 → 32
     expect(getRadius(container)).toBe("32px 32px 32px 32px");
@@ -72,7 +63,7 @@ describe("fixed corner style", () => {
         topTrailingCorner={fixed(24)}
         bottomLeadingCorner={fixed(24)}
         bottomTrailingCorner={fixed(24)}
-      />
+      />,
     );
     expect(getRadius(container)).toBe("24px 24px 24px 24px");
   });
@@ -88,7 +79,7 @@ describe("square corner style", () => {
         topTrailingCorner={square}
         bottomLeadingCorner={square}
         bottomTrailingCorner={square}
-      />
+      />,
     );
     expect(getRadius(container)).toBe("0px 0px 0px 0px");
   });
@@ -102,11 +93,11 @@ describe("mixed corner styles", () => {
       <ConcentricRectangle
         containerRadius={40}
         inset={8}
-        topLeadingCorner={concentric()}   // 32
-        topTrailingCorner={fixed(10)}     // 10
+        topLeadingCorner={concentric()} // 32
+        topTrailingCorner={fixed(10)} // 10
         bottomLeadingCorner={concentric()} // 32
-        bottomTrailingCorner={square}     // 0
-      />
+        bottomTrailingCorner={square} // 0
+      />,
     );
     // CSS order: top-left top-right bottom-right bottom-left
     expect(getRadius(container)).toBe("32px 10px 0px 32px");
@@ -118,7 +109,7 @@ describe("mixed corner styles", () => {
 describe("borderWidth prop", () => {
   it("adds border width to inset before calculating radius", () => {
     const { container } = render(
-      <ConcentricRectangle containerRadius={40} inset={10} borderWidth={6} />
+      <ConcentricRectangle containerRadius={40} inset={10} borderWidth={6} />,
     );
     // totalInset = 10 + 6 = 16 → 40 - 16 = 24
     expect(getRadius(container)).toBe("24px 24px 24px 24px");
@@ -147,7 +138,7 @@ function mockComputedStyle(styles: Partial<CSSStyleDeclaration>) {
   // The component calls getComputedStyle(parentElement) inside readParentMetrics.
   // We use mockImplementation (not mockReturnValue) so the stub fires on every call.
   vi.spyOn(window, "getComputedStyle").mockImplementation(
-    () => ({ ...STYLE_DEFAULTS, ...styles }) as CSSStyleDeclaration
+    () => ({ ...STYLE_DEFAULTS, ...styles }) as CSSStyleDeclaration,
   );
 }
 
@@ -169,7 +160,7 @@ describe("auto mode", () => {
     const { container } = render(
       <div>
         <ConcentricRectangle />
-      </div>
+      </div>,
     );
     await act(async () => {});
 
@@ -198,7 +189,7 @@ describe("auto mode", () => {
     const { container } = render(
       <div>
         <ConcentricRectangle />
-      </div>
+      </div>,
     );
     await act(async () => {});
 

@@ -34,11 +34,7 @@ interface ConcentricRectangleProps {
   children?: React.ReactNode;
 }
 
-function resolveRadius(
-  corner: CornerStyle,
-  containerRadius: number,
-  totalInset: number
-): number {
+function resolveRadius(corner: CornerStyle, containerRadius: number, totalInset: number): number {
   if (corner.type === "square") return 0;
   if (corner.type === "fixed") return corner.radius;
   const r = Math.max(0, containerRadius - totalInset);
@@ -111,12 +107,7 @@ export function ConcentricRectangle({
   // Per-corner inset = border + padding for that corner's edges.
   // top-left uses top padding + left padding averaged, same for border.
   // ponytail: simple corner-edge average; good enough for uniform padding/border.
-  function cornerInset(
-    pi: number,
-    pj: number,
-    bi: number,
-    bj: number
-  ): number {
+  function cornerInset(pi: number, pj: number, bi: number, bj: number): number {
     const p = inset ?? (pi + pj) / 2;
     const b = borderWidth ?? (bi + bj) / 2;
     return p + b;
