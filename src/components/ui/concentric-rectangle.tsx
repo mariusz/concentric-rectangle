@@ -21,8 +21,10 @@ export const square: CornerStyle = { type: "square" };
 interface ConcentricRectangleProps {
   /** Corner radius of the container shape (the outer rounded rect). */
   containerRadius: number;
-  /** Inset (padding) from container edge to this rectangle. */
+  /** Padding from container edge to this rectangle. */
   inset: number;
+  /** Border width of the container (added to inset — border-radius is measured from the outer border edge). */
+  borderWidth?: number;
   topLeadingCorner?: CornerStyle;
   topTrailingCorner?: CornerStyle;
   bottomLeadingCorner?: CornerStyle;
@@ -49,6 +51,7 @@ function resolveRadius(
 export function ConcentricRectangle({
   containerRadius,
   inset,
+  borderWidth = 0,
   topLeadingCorner = concentric(),
   topTrailingCorner = concentric(),
   bottomLeadingCorner = concentric(),
@@ -57,10 +60,11 @@ export function ConcentricRectangle({
   style,
   children,
 }: ConcentricRectangleProps) {
-  const tl = resolveRadius(topLeadingCorner, containerRadius, inset);
-  const tr = resolveRadius(topTrailingCorner, containerRadius, inset);
-  const bl = resolveRadius(bottomLeadingCorner, containerRadius, inset);
-  const br = resolveRadius(bottomTrailingCorner, containerRadius, inset);
+  const totalInset = inset + borderWidth;
+  const tl = resolveRadius(topLeadingCorner, containerRadius, totalInset);
+  const tr = resolveRadius(topTrailingCorner, containerRadius, totalInset);
+  const bl = resolveRadius(bottomLeadingCorner, containerRadius, totalInset);
+  const br = resolveRadius(bottomTrailingCorner, containerRadius, totalInset);
 
   return (
     <div

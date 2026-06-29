@@ -56,6 +56,7 @@ function CornerPicker({
 export default function Page() {
   const [containerRadius, setContainerRadius] = useState(40);
   const [inset, setInset] = useState(16);
+  const [borderWidth, setBorderWidth] = useState(0);
   const [tl, setTl] = useState<StyleLabel>("concentric");
   const [tr, setTr] = useState<StyleLabel>("concentric");
   const [bl, setBl] = useState<StyleLabel>("concentric");
@@ -76,11 +77,12 @@ export default function Page() {
 
       {/* Live preview */}
       <div
-        className="relative flex items-center justify-center bg-muted/40 border border-border"
+        className="relative flex items-center justify-center bg-muted/40"
         style={{
           borderRadius: containerRadius,
           padding: inset,
           minHeight: 200,
+          border: `${borderWidth}px solid hsl(var(--border))`,
         }}
       >
         <span className="absolute top-2 left-3 text-[10px] text-muted-foreground font-mono">
@@ -89,6 +91,7 @@ export default function Page() {
         <ConcentricRectangle
           containerRadius={containerRadius}
           inset={inset}
+          borderWidth={borderWidth}
           topLeadingCorner={toCornerStyle(tl)}
           topTrailingCorner={toCornerStyle(tr)}
           bottomLeadingCorner={toCornerStyle(bl)}
@@ -130,6 +133,19 @@ export default function Page() {
               step={1}
               value={[inset]}
               onValueChange={(v) => setInset(Array.isArray(v) ? v[0] : v)}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="text-xs">
+              Container border width:{" "}
+              <span className="font-mono">{borderWidth}px</span>
+            </Label>
+            <Slider
+              min={0}
+              max={20}
+              step={1}
+              value={[borderWidth]}
+              onValueChange={(v) => setBorderWidth(Array.isArray(v) ? v[0] : v)}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
