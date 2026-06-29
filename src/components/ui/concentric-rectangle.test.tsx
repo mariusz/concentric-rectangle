@@ -27,10 +27,10 @@ describe("concentric corner style", () => {
       <ConcentricRectangle
         containerRadius={20}
         inset={18}
-        topLeadingCorner={concentric(8)}
-        topTrailingCorner={concentric(8)}
-        bottomLeadingCorner={concentric(8)}
-        bottomTrailingCorner={concentric(8)}
+        topLeftCorner={concentric(8)}
+        topRightCorner={concentric(8)}
+        bottomLeftCorner={concentric(8)}
+        bottomRightCorner={concentric(8)}
       />,
     );
     // concentric = 20 - 18 = 2, minimum = 8 → 8
@@ -42,10 +42,10 @@ describe("concentric corner style", () => {
       <ConcentricRectangle
         containerRadius={40}
         inset={8}
-        topLeadingCorner={concentric(4)}
-        topTrailingCorner={concentric(4)}
-        bottomLeadingCorner={concentric(4)}
-        bottomTrailingCorner={concentric(4)}
+        topLeftCorner={concentric(4)}
+        topRightCorner={concentric(4)}
+        bottomLeftCorner={concentric(4)}
+        bottomRightCorner={concentric(4)}
       />,
     );
     // concentric = 40 - 8 = 32, minimum = 4 → 32
@@ -59,10 +59,10 @@ describe("fixed corner style", () => {
       <ConcentricRectangle
         containerRadius={40}
         inset={16}
-        topLeadingCorner={fixed(24)}
-        topTrailingCorner={fixed(24)}
-        bottomLeadingCorner={fixed(24)}
-        bottomTrailingCorner={fixed(24)}
+        topLeftCorner={fixed(24)}
+        topRightCorner={fixed(24)}
+        bottomLeftCorner={fixed(24)}
+        bottomRightCorner={fixed(24)}
       />,
     );
     expect(getRadius(container)).toBe("24px 24px 24px 24px");
@@ -75,10 +75,10 @@ describe("square corner style", () => {
       <ConcentricRectangle
         containerRadius={40}
         inset={8}
-        topLeadingCorner={square}
-        topTrailingCorner={square}
-        bottomLeadingCorner={square}
-        bottomTrailingCorner={square}
+        topLeftCorner={square}
+        topRightCorner={square}
+        bottomLeftCorner={square}
+        bottomRightCorner={square}
       />,
     );
     expect(getRadius(container)).toBe("0px 0px 0px 0px");
@@ -93,10 +93,10 @@ describe("mixed corner styles", () => {
       <ConcentricRectangle
         containerRadius={40}
         inset={8}
-        topLeadingCorner={concentric()} // 32
-        topTrailingCorner={fixed(10)} // 10
-        bottomLeadingCorner={concentric()} // 32
-        bottomTrailingCorner={square} // 0
+        topLeftCorner={concentric()} // 32
+        topRightCorner={fixed(10)} // 10
+        bottomLeftCorner={concentric()} // 32
+        bottomRightCorner={square} // 0
       />,
     );
     // CSS order: top-left top-right bottom-right bottom-left

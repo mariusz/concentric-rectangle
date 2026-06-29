@@ -89,10 +89,10 @@ export default function Page() {
           container r={containerRadius}px
         </span>
         <ConcentricRectangle
-          topLeadingCorner={toCornerStyle(tl)}
-          topTrailingCorner={toCornerStyle(tr)}
-          bottomLeadingCorner={toCornerStyle(bl)}
-          bottomTrailingCorner={toCornerStyle(br)}
+          topLeftCorner={toCornerStyle(tl)}
+          topRightCorner={toCornerStyle(tr)}
+          bottomLeftCorner={toCornerStyle(bl)}
+          bottomRightCorner={toCornerStyle(br)}
           className="w-full h-32 bg-primary/80 flex items-center justify-center"
         >
           <span className="text-primary-foreground text-sm font-mono">ConcentricRectangle</span>
@@ -150,6 +150,42 @@ export default function Page() {
         </CardContent>
       </Card>
 
+      {/* Nested demo */}
+      <div>
+        <h2 className="text-sm font-semibold mb-3">Nested ConcentricRectangles</h2>
+        <p className="text-xs text-muted-foreground mb-4">
+          Each layer is a{" "}
+          <code className="font-mono bg-muted px-1 py-0.5 rounded">ConcentricRectangle</code> nested
+          inside the previous one. Corner radii are automatically derived from the parent&apos;s
+          computed style.
+        </p>
+        <div
+          className="bg-indigo-500 flex items-center justify-center"
+          style={{ borderRadius: 48, padding: 16 }}
+        >
+          <ConcentricRectangle
+            className="w-full bg-violet-400 flex items-center justify-center"
+            style={{ padding: 16 }}
+          >
+            <ConcentricRectangle
+              className="w-full bg-fuchsia-300 flex items-center justify-center"
+              style={{ padding: 16 }}
+            >
+              <ConcentricRectangle
+                topLeftCorner={concentric(4)}
+                topRightCorner={concentric(4)}
+                bottomLeftCorner={concentric(4)}
+                bottomRightCorner={concentric(4)}
+                className="w-full bg-pink-200 flex items-center justify-center"
+                style={{ padding: 16 }}
+              >
+                <span className="text-pink-900 text-xs font-mono">innermost</span>
+              </ConcentricRectangle>
+            </ConcentricRectangle>
+          </ConcentricRectangle>
+        </div>
+      </div>
+
       {/* Preset examples */}
       <div>
         <h2 className="text-sm font-semibold mb-3">Preset examples</h2>
@@ -191,10 +227,10 @@ export default function Page() {
                 <ConcentricRectangle
                   containerRadius={ex.outer}
                   inset={ex.inset}
-                  topLeadingCorner={ex.tl}
-                  topTrailingCorner={ex.tr}
-                  bottomLeadingCorner={ex.bl}
-                  bottomTrailingCorner={ex.br}
+                  topLeftCorner={ex.tl}
+                  topRightCorner={ex.tr}
+                  bottomLeftCorner={ex.bl}
+                  bottomRightCorner={ex.br}
                   className="w-full h-full bg-primary/80"
                 />
               </div>

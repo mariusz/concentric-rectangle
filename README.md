@@ -16,7 +16,14 @@ import {
   square,
 } from "@/components/ui/concentric-rectangle";
 
-// All corners concentric with container
+// All corners concentric with container (auto-reads parent styles)
+<div style={{ borderRadius: 40, padding: 16 }}>
+  <ConcentricRectangle>
+    content
+  </ConcentricRectangle>
+</div>
+
+// Explicit props
 <div style={{ borderRadius: 40, padding: 16 }}>
   <ConcentricRectangle containerRadius={40} inset={16}>
     content
@@ -27,21 +34,33 @@ import {
 <ConcentricRectangle
   containerRadius={44}
   inset={14}
-  topLeadingCorner={fixed(16)}
-  topTrailingCorner={fixed(16)}
-  bottomLeadingCorner={concentric()}
-  bottomTrailingCorner={concentric()}
+  topLeftCorner={fixed(16)}
+  topRightCorner={fixed(16)}
+  bottomLeftCorner={concentric()}
+  bottomRightCorner={concentric()}
 />
 
 // Mixed
 <ConcentricRectangle
   containerRadius={40}
   inset={14}
-  topLeadingCorner={concentric(8)}  // concentric with 8px minimum
-  topTrailingCorner={fixed(24)}
-  bottomLeadingCorner={concentric()}
-  bottomTrailingCorner={square}
+  topLeftCorner={concentric(8)}  // concentric with 8px minimum
+  topRightCorner={fixed(24)}
+  bottomLeftCorner={concentric()}
+  bottomRightCorner={square}
 />
+
+// Nested — each layer reads its parent automatically
+<div style={{ borderRadius: 48, padding: 16 }}>
+  <ConcentricRectangle style={{ padding: 16 }}>
+    <ConcentricRectangle style={{ padding: 16 }}>
+      <ConcentricRectangle topLeftCorner={concentric(4)} topRightCorner={concentric(4)}
+                           bottomLeftCorner={concentric(4)} bottomRightCorner={concentric(4)}>
+        innermost
+      </ConcentricRectangle>
+    </ConcentricRectangle>
+  </ConcentricRectangle>
+</div>
 ```
 
 ## Corner styles
@@ -57,12 +76,13 @@ import {
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `containerRadius` | `number` | required | Corner radius of the surrounding container |
-| `inset` | `number` | required | Distance from container edge to this element |
-| `topLeadingCorner` | `CornerStyle` | `concentric()` | |
-| `topTrailingCorner` | `CornerStyle` | `concentric()` | |
-| `bottomLeadingCorner` | `CornerStyle` | `concentric()` | |
-| `bottomTrailingCorner` | `CornerStyle` | `concentric()` | |
+| `containerRadius` | `number` | auto | Corner radius of the surrounding container. Auto-read from parent if omitted. |
+| `inset` | `number` | auto | Distance from container edge to this element. Auto-read from parent padding + border if omitted. |
+| `borderWidth` | `number` | auto | Container border width. Auto-read from parent if omitted. |
+| `topLeftCorner` | `CornerStyle` | `concentric()` | |
+| `topRightCorner` | `CornerStyle` | `concentric()` | |
+| `bottomLeftCorner` | `CornerStyle` | `concentric()` | |
+| `bottomRightCorner` | `CornerStyle` | `concentric()` | |
 | `className` | `string` | — | Tailwind classes |
 | `style` | `CSSProperties` | — | Inline styles |
 | `children` | `ReactNode` | — | |
@@ -73,4 +93,4 @@ import {
 npm run dev   # http://localhost:3000
 ```
 
-Interactive demo with live sliders and preset examples.
+Interactive demo with live sliders, nested example, and preset examples.

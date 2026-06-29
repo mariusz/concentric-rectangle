@@ -25,10 +25,10 @@ interface ConcentricRectangleProps {
   inset?: number;
   /** Container border width. Auto-read from parent if omitted. */
   borderWidth?: number;
-  topLeadingCorner?: CornerStyle;
-  topTrailingCorner?: CornerStyle;
-  bottomLeadingCorner?: CornerStyle;
-  bottomTrailingCorner?: CornerStyle;
+  topLeftCorner?: CornerStyle;
+  topRightCorner?: CornerStyle;
+  bottomLeftCorner?: CornerStyle;
+  bottomRightCorner?: CornerStyle;
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -83,10 +83,10 @@ export function ConcentricRectangle({
   containerRadius,
   inset,
   borderWidth,
-  topLeadingCorner = concentric(),
-  topTrailingCorner = concentric(),
-  bottomLeadingCorner = concentric(),
-  bottomTrailingCorner = concentric(),
+  topLeftCorner = concentric(),
+  topRightCorner = concentric(),
+  bottomLeftCorner = concentric(),
+  bottomRightCorner = concentric(),
   className,
   style,
   children,
@@ -123,10 +123,10 @@ export function ConcentricRectangle({
   const brRadius = containerRadius ?? rb;
   const blRadius = containerRadius ?? rl;
 
-  const tl = resolveRadius(topLeadingCorner, tlRadius, cornerInset(pt, pl, bt, bl2));
-  const tr = resolveRadius(topTrailingCorner, trRadius, cornerInset(pt, pr, bt, bri));
-  const br = resolveRadius(bottomTrailingCorner, brRadius, cornerInset(pb, pr, bbo, bri));
-  const bln = resolveRadius(bottomLeadingCorner, blRadius, cornerInset(pb, pl, bbo, bl2));
+  const tl = resolveRadius(topLeftCorner, tlRadius, cornerInset(pt, pl, bt, bl2));
+  const tr = resolveRadius(topRightCorner, trRadius, cornerInset(pt, pr, bt, bri));
+  const br = resolveRadius(bottomRightCorner, brRadius, cornerInset(pb, pr, bbo, bri));
+  const bln = resolveRadius(bottomLeftCorner, blRadius, cornerInset(pb, pl, bbo, bl2));
 
   // On first render before metrics are read, render transparent to avoid flash.
   const ready = !isAuto || metrics !== null;
