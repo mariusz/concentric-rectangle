@@ -142,10 +142,10 @@ export default function Page() {
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <CornerPicker label="↖ top-leading" value={tl} onChange={setTl} />
-            <CornerPicker label="↗ top-trailing" value={tr} onChange={setTr} />
-            <CornerPicker label="↙ bottom-leading" value={bl} onChange={setBl} />
-            <CornerPicker label="↘ bottom-trailing" value={br} onChange={setBr} />
+            <CornerPicker label="↖ top-left" value={tl} onChange={setTl} />
+            <CornerPicker label="↗ top-right" value={tr} onChange={setTr} />
+            <CornerPicker label="↙ bottom-left" value={bl} onChange={setBl} />
+            <CornerPicker label="↘ bottom-right" value={br} onChange={setBr} />
           </div>
         </CardContent>
       </Card>
