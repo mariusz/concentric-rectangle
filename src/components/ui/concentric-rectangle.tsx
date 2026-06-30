@@ -51,6 +51,8 @@ interface ParentMetrics {
   // top, right, bottom, left
   padding: [number, number, number, number];
   border: [number, number, number, number];
+  // corner-shape longhands, empty string = not set
+  cornerShapes: [string, string, string, string];
 }
 
 function readParentMetrics(el: HTMLElement): ParentMetrics | null {
@@ -75,6 +77,12 @@ function readParentMetrics(el: HTMLElement): ParentMetrics | null {
       parsePixels(s.borderRightWidth),
       parsePixels(s.borderBottomWidth),
       parsePixels(s.borderLeftWidth),
+    ],
+    cornerShapes: [
+      (s as CSSStyleDeclaration & Record<string, string>)["corner-top-left-shape"] ?? "",
+      (s as CSSStyleDeclaration & Record<string, string>)["corner-top-right-shape"] ?? "",
+      (s as CSSStyleDeclaration & Record<string, string>)["corner-bottom-right-shape"] ?? "",
+      (s as CSSStyleDeclaration & Record<string, string>)["corner-bottom-left-shape"] ?? "",
     ],
   };
 }
@@ -128,6 +136,7 @@ export function ConcentricRectangle({
   const [rt, rr, rb, rl] = m ? m.radii : [0, 0, 0, 0];
   const [pt, pr, pb, pl] = m ? m.padding : [0, 0, 0, 0];
   const [bt, bri, bbo, bl2] = m ? m.border : [0, 0, 0, 0];
+  const [csTL, csTR, csBR, csBL] = m ? m.cornerShapes : ["", "", "", ""];
 
   const tlRadius = containerRadius ?? rt;
   const trRadius = containerRadius ?? rr;
@@ -148,6 +157,10 @@ export function ConcentricRectangle({
       className={cn("overflow-hidden", className)}
       style={{
         borderRadius: `${tl}px ${tr}px ${br}px ${bln}px`,
+        ...(csTL && { ["corner-top-left-shape" as string]: csTL }),
+        ...(csTR && { ["corner-top-right-shape" as string]: csTR }),
+        ...(csBR && { ["corner-bottom-right-shape" as string]: csBR }),
+        ...(csBL && { ["corner-bottom-left-shape" as string]: csBL }),
         visibility: ready ? undefined : "hidden",
         ...style,
       }}
