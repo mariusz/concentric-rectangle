@@ -88,6 +88,7 @@ export default function Page() {
   const [tr, setTr] = useState<StyleLabel>("concentric");
   const [bl, setBl] = useState<StyleLabel>("concentric");
   const [br, setBr] = useState<StyleLabel>("concentric");
+  const innerRadius = Math.max(0, containerRadius - inset - borderWidth);
 
   return (
     <main className="min-h-screen bg-background text-foreground p-8 flex flex-col gap-8 max-w-3xl mx-auto">
@@ -97,34 +98,57 @@ export default function Page() {
           A rounded rectangle whose corner radii are calculated to be concentric with a container
           shape — sharing the same center point. The math:{" "}
           <code className="font-mono text-xs bg-muted px-1 py-0.5 rounded">
-            innerRadius = containerRadius − inset
+            innerRadius = containerRadius − inset − borderWidth
           </code>
         </p>
         <CopyCommand cmd="npx shadcn add https://mariusz.github.io/concentric-rectangle/r/concentric-rectangle.json" />
       </div>
 
       {/* Live preview — no explicit props, reads parent automatically */}
-      <div
-        className="relative flex items-center justify-center bg-muted/40"
-        style={{
-          borderRadius: containerRadius,
-          padding: inset,
-          minHeight: 200,
-          border: `${borderWidth}px solid hsl(var(--border))`,
-        }}
-      >
-        <span className="absolute top-2 left-3 text-[10px] text-muted-foreground font-mono">
-          container r={containerRadius}px
-        </span>
-        <ConcentricRectangle
-          topLeftCorner={toCornerStyle(tl)}
-          topRightCorner={toCornerStyle(tr)}
-          bottomLeftCorner={toCornerStyle(bl)}
-          bottomRightCorner={toCornerStyle(br)}
-          className="w-full h-32 bg-primary/80 flex items-center justify-center"
+      <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
+        <div className="mb-3 flex flex-wrap items-center gap-2 text-[11px] font-mono">
+          <span className="rounded bg-slate-900 px-2 py-1 text-white">
+            container r={containerRadius}px
+          </span>
+          <span className="rounded bg-amber-300 px-2 py-1 text-amber-950">inset {inset}px</span>
+          <span className="rounded bg-cyan-700 px-2 py-1 text-white">
+            border {borderWidth}px
+          </span>
+          <span className="rounded bg-rose-600 px-2 py-1 text-white">
+            inner r={innerRadius}px
+          </span>
+        </div>
+        <div
+          className="relative flex min-h-60 items-center justify-center bg-amber-200"
+          aria-label="Live ConcentricRectangle preview"
+          data-testid="live-preview"
+          style={{
+            borderRadius: containerRadius,
+            padding: inset,
+            border: `${borderWidth}px solid rgb(8 145 178)`,
+            outline: "2px solid rgb(15 23 42)",
+            outlineOffset: 0,
+            boxShadow: "inset 0 0 0 1px rgb(255 255 255 / 0.65)",
+          }}
         >
-          <span className="text-primary-foreground text-sm font-mono">ConcentricRectangle</span>
-        </ConcentricRectangle>
+          <span className="pointer-events-none absolute left-3 top-3 rounded bg-slate-950/90 px-2 py-1 text-[10px] font-mono text-white shadow-sm">
+            parent container
+          </span>
+          <span className="pointer-events-none absolute bottom-3 right-3 rounded bg-amber-50/95 px-2 py-1 text-[10px] font-mono text-amber-950 shadow-sm">
+            visible inset area
+          </span>
+          <ConcentricRectangle
+            topLeftCorner={toCornerStyle(tl)}
+            topRightCorner={toCornerStyle(tr)}
+            bottomLeftCorner={toCornerStyle(bl)}
+            bottomRightCorner={toCornerStyle(br)}
+            className="flex h-36 w-full items-center justify-center bg-rose-600 shadow-[inset_0_0_0_2px_rgb(255_255_255_/_0.9)]"
+          >
+            <span className="rounded bg-white/95 px-3 py-1.5 text-sm font-semibold text-rose-700 shadow-sm">
+              ConcentricRectangle
+            </span>
+          </ConcentricRectangle>
+        </div>
       </div>
 
       {/* Controls */}
