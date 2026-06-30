@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Check, Copy } from "lucide-react";
 import {
   ConcentricRectangle,
   concentric,
@@ -53,6 +54,32 @@ function CornerPicker({
   );
 }
 
+function CopyCommand({ cmd }: { cmd: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="mt-3 flex items-center gap-2 bg-muted rounded-md px-3 py-2 w-fit">
+      <code className="font-mono text-xs">{cmd}</code>
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(cmd);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        }}
+        className="t-icon-swap text-muted-foreground hover:text-foreground transition-colors"
+        data-state={copied ? "b" : "a"}
+        aria-label="Copy"
+      >
+        <span className="t-icon" data-icon="a">
+          <Copy size={14} />
+        </span>
+        <span className="t-icon" data-icon="b">
+          <Check size={14} />
+        </span>
+      </button>
+    </div>
+  );
+}
+
 export default function Page() {
   const [containerRadius, setContainerRadius] = useState(40);
   const [inset, setInset] = useState(16);
@@ -73,12 +100,7 @@ export default function Page() {
             innerRadius = containerRadius − inset
           </code>
         </p>
-        <div className="mt-3 flex items-center gap-2 bg-muted rounded-md px-3 py-2 w-fit">
-          <code className="font-mono text-xs">
-            npx shadcn add
-            https://mariusz.github.io/concentric-rectangle/r/concentric-rectangle.json
-          </code>
-        </div>
+        <CopyCommand cmd="npx shadcn add https://mariusz.github.io/concentric-rectangle/r/concentric-rectangle.json" />
       </div>
 
       {/* Live preview — no explicit props, reads parent automatically */}
