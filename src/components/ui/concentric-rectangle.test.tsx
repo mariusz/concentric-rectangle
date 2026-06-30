@@ -143,8 +143,10 @@ function mockComputedStyle(styles: Partial<CSSStyleDeclaration>) {
 }
 
 describe("auto mode", () => {
+  let computedStyles: Partial<CSSStyleDeclaration>;
+
   beforeEach(() => {
-    mockComputedStyle({
+    computedStyles = {
       borderTopLeftRadius: "40px",
       borderTopRightRadius: "40px",
       borderBottomRightRadius: "40px",
@@ -153,7 +155,8 @@ describe("auto mode", () => {
       paddingRight: "16px",
       paddingBottom: "16px",
       paddingLeft: "16px",
-    });
+    };
+    mockComputedStyle(computedStyles);
   });
 
   it("becomes visible and applies correct radii after metrics resolve", async () => {
@@ -196,5 +199,29 @@ describe("auto mode", () => {
     const inner = container.firstElementChild!.firstElementChild as HTMLElement;
     // totalInset per corner = (10+10)/2 + (6+6)/2 = 10 + 6 = 16 → 40 - 16 = 24
     expect(inner.style.borderRadius).toBe("24px 24px 24px 24px");
+  });
+
+  it("refreshes auto radii when the parent style changes without resizing", async () => {
+    const { container } = render(
+      <div style={{ borderRadius: 40, padding: 16 }}>
+        <ConcentricRectangle />
+      </div>,
+    );
+    await act(async () => {});
+
+    const parent = container.firstElementChild as HTMLElement;
+    const inner = parent.firstElementChild as HTMLElement;
+    expect(inner.style.borderRadius).toBe("24px 24px 24px 24px");
+
+    computedStyles.borderTopLeftRadius = "56px";
+    computedStyles.borderTopRightRadius = "56px";
+    computedStyles.borderBottomRightRadius = "56px";
+    computedStyles.borderBottomLeftRadius = "56px";
+
+    await act(async () => {
+      parent.style.borderRadius = "56px";
+    });
+
+    expect(inner.style.borderRadius).toBe("40px 40px 40px 40px");
   });
 });

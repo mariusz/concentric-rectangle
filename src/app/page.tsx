@@ -105,36 +105,38 @@ export default function Page() {
       </div>
 
       {/* Live preview — no explicit props, reads parent automatically */}
-      <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
+      <div className="rounded-lg border border-border bg-card p-4 shadow-sm shadow-black/5">
         <div className="mb-3 flex flex-wrap items-center gap-2 text-[11px] font-mono">
-          <span className="rounded bg-slate-900 px-2 py-1 text-white">
+          <span className="rounded border border-border bg-foreground px-2 py-1 text-background">
             container r={containerRadius}px
           </span>
-          <span className="rounded bg-amber-300 px-2 py-1 text-amber-950">inset {inset}px</span>
-          <span className="rounded bg-cyan-700 px-2 py-1 text-white">
+          <span className="rounded border border-border bg-secondary px-2 py-1 text-secondary-foreground">
+            inset {inset}px
+          </span>
+          <span className="rounded border border-border bg-muted px-2 py-1 text-muted-foreground">
             border {borderWidth}px
           </span>
-          <span className="rounded bg-rose-600 px-2 py-1 text-white">
+          <span className="rounded border border-border bg-card px-2 py-1 text-foreground shadow-sm shadow-black/5">
             inner r={innerRadius}px
           </span>
         </div>
         <div
-          className="relative flex min-h-60 items-center justify-center bg-amber-200"
+          className="relative flex min-h-60 items-center justify-center bg-[#f6f6f3]"
           aria-label="Live ConcentricRectangle preview"
           data-testid="live-preview"
           style={{
             borderRadius: containerRadius,
             padding: inset,
-            border: `${borderWidth}px solid rgb(8 145 178)`,
-            outline: "2px solid rgb(15 23 42)",
+            border: `${borderWidth}px solid rgb(115 115 115)`,
+            outline: "1px solid rgb(212 212 212)",
             outlineOffset: 0,
-            boxShadow: "inset 0 0 0 1px rgb(255 255 255 / 0.65)",
+            boxShadow: "inset 0 1px 0 rgb(255 255 255 / 0.8)",
           }}
         >
-          <span className="pointer-events-none absolute left-3 top-3 rounded bg-slate-950/90 px-2 py-1 text-[10px] font-mono text-white shadow-sm">
+          <span className="pointer-events-none absolute left-3 top-3 rounded border border-border bg-white/90 px-2 py-1 text-[10px] font-mono text-foreground shadow-sm shadow-black/5">
             parent container
           </span>
-          <span className="pointer-events-none absolute bottom-3 right-3 rounded bg-amber-50/95 px-2 py-1 text-[10px] font-mono text-amber-950 shadow-sm">
+          <span className="pointer-events-none absolute bottom-3 right-3 rounded border border-border bg-white/90 px-2 py-1 text-[10px] font-mono text-muted-foreground shadow-sm shadow-black/5">
             visible inset area
           </span>
           <ConcentricRectangle
@@ -142,9 +144,9 @@ export default function Page() {
             topRightCorner={toCornerStyle(tr)}
             bottomLeftCorner={toCornerStyle(bl)}
             bottomRightCorner={toCornerStyle(br)}
-            className="flex h-36 w-full items-center justify-center bg-rose-600 shadow-[inset_0_0_0_2px_rgb(255_255_255_/_0.9)]"
+            className="flex h-36 w-full items-center justify-center bg-[#2f3437] shadow-[inset_0_0_0_1px_rgb(255_255_255_/_0.18),0_10px_24px_rgb(0_0_0_/_0.10)]"
           >
-            <span className="rounded bg-white/95 px-3 py-1.5 text-sm font-semibold text-rose-700 shadow-sm">
+            <span className="rounded border border-white/15 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white shadow-sm shadow-black/10 backdrop-blur">
               ConcentricRectangle
             </span>
           </ConcentricRectangle>
@@ -212,15 +214,15 @@ export default function Page() {
           computed style.
         </p>
         <div
-          className="bg-indigo-500 flex items-center justify-center"
+          className="flex items-center justify-center border border-border bg-[#f6f6f3] shadow-sm shadow-black/5"
           style={{ borderRadius: 48, padding: 16 }}
         >
           <ConcentricRectangle
-            className="w-full bg-violet-400 flex items-center justify-center"
+            className="flex w-full items-center justify-center bg-[#e7e5df]"
             style={{ padding: 16 }}
           >
             <ConcentricRectangle
-              className="w-full bg-fuchsia-300 flex items-center justify-center"
+              className="flex w-full items-center justify-center bg-[#d6d8d2]"
               style={{ padding: 16 }}
             >
               <ConcentricRectangle
@@ -228,10 +230,10 @@ export default function Page() {
                 topRightCorner={concentric(4)}
                 bottomLeftCorner={concentric(4)}
                 bottomRightCorner={concentric(4)}
-                className="w-full bg-pink-200 flex items-center justify-center"
+                className="flex w-full items-center justify-center bg-[#2f3437]"
                 style={{ padding: 16 }}
               >
-                <span className="text-pink-900 text-xs font-mono">innermost</span>
+                <span className="text-xs font-mono text-white">innermost</span>
               </ConcentricRectangle>
             </ConcentricRectangle>
           </ConcentricRectangle>
@@ -273,7 +275,7 @@ export default function Page() {
           ].map((ex) => (
             <div key={ex.label} className="flex flex-col gap-2">
               <div
-                className="bg-muted/40 border border-border flex items-center justify-center"
+                className="flex items-center justify-center border border-border bg-[#f6f6f3] shadow-sm shadow-black/5"
                 style={{ borderRadius: ex.outer, padding: ex.inset, height: 100 }}
               >
                 <ConcentricRectangle
@@ -283,7 +285,7 @@ export default function Page() {
                   topRightCorner={ex.tr}
                   bottomLeftCorner={ex.bl}
                   bottomRightCorner={ex.br}
-                  className="w-full h-full bg-primary/80"
+                  className="h-full w-full bg-[#2f3437] shadow-[inset_0_0_0_1px_rgb(255_255_255_/_0.18)]"
                 />
               </div>
               <span className="text-xs text-muted-foreground text-center">{ex.label}</span>

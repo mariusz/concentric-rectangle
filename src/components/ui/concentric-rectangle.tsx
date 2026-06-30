@@ -98,10 +98,21 @@ export function ConcentricRectangle({
   useEffect(() => {
     if (!isAuto || !ref.current) return;
     const update = () => setMetrics(readParentMetrics(ref.current!));
+    const parent = ref.current.parentElement;
     update();
-    const observer = new ResizeObserver(update);
-    if (ref.current.parentElement) observer.observe(ref.current.parentElement);
-    return () => observer.disconnect();
+    const resizeObserver = new ResizeObserver(update);
+    const mutationObserver = new MutationObserver(update);
+    if (parent) {
+      resizeObserver.observe(parent);
+      mutationObserver.observe(parent, {
+        attributes: true,
+        attributeFilter: ["class", "style"],
+      });
+    }
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
   }, [isAuto]);
 
   // Per-corner inset = border + padding for that corner's edges.
