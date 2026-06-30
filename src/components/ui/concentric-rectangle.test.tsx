@@ -118,7 +118,7 @@ describe("borderWidth prop", () => {
 
 // ─── Auto mode: reads metrics from parent ────────────────────────────────────
 
-const STYLE_DEFAULTS: Partial<CSSStyleDeclaration> = {
+const STYLE_DEFAULTS: Partial<CSSStyleDeclaration> & Record<string, string> = {
   borderTopLeftRadius: "0px",
   borderTopRightRadius: "0px",
   borderBottomRightRadius: "0px",
@@ -131,9 +131,13 @@ const STYLE_DEFAULTS: Partial<CSSStyleDeclaration> = {
   borderRightWidth: "0px",
   borderBottomWidth: "0px",
   borderLeftWidth: "0px",
+  "corner-top-left-shape": "",
+  "corner-top-right-shape": "",
+  "corner-bottom-right-shape": "",
+  "corner-bottom-left-shape": "",
 };
 
-function mockComputedStyle(styles: Partial<CSSStyleDeclaration>) {
+function mockComputedStyle(styles: Partial<CSSStyleDeclaration> & Record<string, string>) {
   // jsdom doesn't compute CSS properties, so we stub getComputedStyle.
   // The component calls getComputedStyle(parentElement) inside readParentMetrics.
   // We use mockImplementation (not mockReturnValue) so the stub fires on every call.
@@ -143,7 +147,7 @@ function mockComputedStyle(styles: Partial<CSSStyleDeclaration>) {
 }
 
 describe("auto mode", () => {
-  let computedStyles: Partial<CSSStyleDeclaration>;
+  let computedStyles: Partial<CSSStyleDeclaration> & Record<string, string>;
 
   beforeEach(() => {
     computedStyles = {
@@ -223,5 +227,95 @@ describe("auto mode", () => {
     });
 
     expect(inner.style.borderRadius).toBe("40px 40px 40px 40px");
+  });
+});
+
+// ─── corner-shape inheritance ─────────────────────────────────────────────────
+
+describe("corner-shape inheritance", () => {
+  it("forwards uniform corner-shape from parent onto inner div", async () => {
+    mockComputedStyle({
+      borderTopLeftRadius: "40px",
+      borderTopRightRadius: "40px",
+      borderBottomRightRadius: "40px",
+      borderBottomLeftRadius: "40px",
+      paddingTop: "16px",
+      paddingRight: "16px",
+      paddingBottom: "16px",
+      paddingLeft: "16px",
+      "corner-top-left-shape": "squircle",
+      "corner-top-right-shape": "squircle",
+      "corner-bottom-right-shape": "squircle",
+      "corner-bottom-left-shape": "squircle",
+    });
+
+    const { container } = render(
+      <div>
+        <ConcentricRectangle />
+      </div>,
+    );
+    await act(async () => {});
+
+    const inner = container.firstElementChild!.firstElementChild as HTMLElement;
+    expect(inner.style.getPropertyValue("corner-top-left-shape")).toBe("squircle");
+    expect(inner.style.getPropertyValue("corner-top-right-shape")).toBe("squircle");
+    expect(inner.style.getPropertyValue("corner-bottom-right-shape")).toBe("squircle");
+    expect(inner.style.getPropertyValue("corner-bottom-left-shape")).toBe("squircle");
+  });
+
+  it("forwards mixed per-corner shapes from parent", async () => {
+    mockComputedStyle({
+      borderTopLeftRadius: "40px",
+      borderTopRightRadius: "40px",
+      borderBottomRightRadius: "40px",
+      borderBottomLeftRadius: "40px",
+      paddingTop: "16px",
+      paddingRight: "16px",
+      paddingBottom: "16px",
+      paddingLeft: "16px",
+      "corner-top-left-shape": "squircle",
+      "corner-top-right-shape": "bevel",
+      "corner-bottom-right-shape": "round",
+      "corner-bottom-left-shape": "notch",
+    });
+
+    const { container } = render(
+      <div>
+        <ConcentricRectangle />
+      </div>,
+    );
+    await act(async () => {});
+
+    const inner = container.firstElementChild!.firstElementChild as HTMLElement;
+    expect(inner.style.getPropertyValue("corner-top-left-shape")).toBe("squircle");
+    expect(inner.style.getPropertyValue("corner-top-right-shape")).toBe("bevel");
+    expect(inner.style.getPropertyValue("corner-bottom-right-shape")).toBe("round");
+    expect(inner.style.getPropertyValue("corner-bottom-left-shape")).toBe("notch");
+  });
+
+  it("does not set corner-shape properties when parent has none", async () => {
+    mockComputedStyle({
+      borderTopLeftRadius: "40px",
+      borderTopRightRadius: "40px",
+      borderBottomRightRadius: "40px",
+      borderBottomLeftRadius: "40px",
+      paddingTop: "16px",
+      paddingRight: "16px",
+      paddingBottom: "16px",
+      paddingLeft: "16px",
+    });
+
+    const { container } = render(
+      <div>
+        <ConcentricRectangle />
+      </div>,
+    );
+    await act(async () => {});
+
+    const inner = container.firstElementChild!.firstElementChild as HTMLElement;
+    expect(inner.style.getPropertyValue("corner-top-left-shape")).toBe("");
+    expect(inner.style.getPropertyValue("corner-top-right-shape")).toBe("");
+    expect(inner.style.getPropertyValue("corner-bottom-right-shape")).toBe("");
+    expect(inner.style.getPropertyValue("corner-bottom-left-shape")).toBe("");
   });
 });
