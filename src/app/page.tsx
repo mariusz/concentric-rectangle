@@ -73,6 +73,12 @@ export default function Page() {
             innerRadius = containerRadius − inset
           </code>
         </p>
+        <div className="mt-3 flex items-center gap-2 bg-muted rounded-md px-3 py-2 w-fit">
+          <code className="font-mono text-xs">
+            npx shadcn add
+            https://mariusz.github.io/concentric-rectangle/r/concentric-rectangle.json
+          </code>
+        </div>
       </div>
 
       {/* Live preview — no explicit props, reads parent automatically */}

@@ -6,6 +6,12 @@ A port of SwiftUI's [`ConcentricRectangle`](https://developer.apple.com/document
 
 The math: `innerRadius = containerRadius − inset`
 
+## Installation
+
+```bash
+npx shadcn add https://mariusz.github.io/concentric-rectangle/r/concentric-rectangle.json
+```
+
 ## Usage
 
 ```tsx
